@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.util.List;
 
 public class UserServiceTest {
-    private final UserService userService = new UserServiceImpl();
+    private final UserService userService = UserServiceImpl.getUserServiceImpl();
 
     private final String testName = "Ivan";
     private final String testLastName = "Ivanov";
@@ -17,7 +17,7 @@ public class UserServiceTest {
     @Test
     public void dropUsersTable() {
         try {
-            userService.dropUsersTable();
+            userService.createUsersTable();
             userService.dropUsersTable();
         } catch (Exception e) {
             Assert.fail("При тестировании удаления таблицы произошло исключение\n" + e);
