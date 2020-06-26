@@ -1,5 +1,6 @@
 package jm.task.core.jdbc.dao;
 
+
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 
@@ -10,7 +11,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class UserDaoJDBCImpl implements UserDao {
+
+    private final Connection mysqlConnection = Util.getMysqlConnection();
 
     public UserDaoJDBCImpl() {
     }
@@ -18,7 +22,7 @@ public class UserDaoJDBCImpl implements UserDao {
     @Override
     public void createUsersTable() {
         try {
-            Statement stmt = Util.getMysqlConnection().createStatement();
+            Statement stmt = mysqlConnection.createStatement();
             stmt.execute("CREATE TABLE IF NOT EXISTS users (id BIGINT AUTO_INCREMENT, " +
                     "name VARCHAR(256), lastname VARCHAR(256), age TINYINT, PRIMARY KEY (id))");
             stmt.close();
@@ -30,7 +34,7 @@ public class UserDaoJDBCImpl implements UserDao {
     @Override
     public void dropUsersTable() {
         try {
-            Statement stmt = Util.getMysqlConnection().createStatement();
+            Statement stmt = mysqlConnection.createStatement();
             stmt.executeUpdate("DROP TABLE IF EXISTS users");
             stmt.close();
         } catch (SQLException e) {
@@ -41,7 +45,7 @@ public class UserDaoJDBCImpl implements UserDao {
     @Override
     public void saveUser(String name, String lastName, byte age) {
         try {
-            Statement stmt = Util.getMysqlConnection().createStatement();
+            Statement stmt = mysqlConnection.createStatement();
             stmt.executeUpdate(String.format("INSERT INTO users (name, lastname , age)" +
                             "VALUES ('%s', '%s', %d)",
                     name,
@@ -55,7 +59,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void removeUserById(long id) {
         try {
-            Statement stmt = Util.getMysqlConnection().createStatement();
+            Statement stmt = mysqlConnection.createStatement();
             stmt.executeUpdate(String.format("DELETE FROM users WHERE id=%d", id));
             stmt.close();
         } catch (SQLException e) {
@@ -66,7 +70,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public List<User> getAllUsers() {
         ArrayList<User> users = new ArrayList<>();
         try {
-            Statement stmt = Util.getMysqlConnection().createStatement();
+            Statement stmt = mysqlConnection.createStatement();
             stmt.executeQuery("SELECT * FROM users");
             ResultSet result = stmt.getResultSet();
             while (result.next()) {
@@ -86,7 +90,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void cleanUsersTable() {
         try {
-            Statement stmt = Util.getMysqlConnection().createStatement();
+            Statement stmt = mysqlConnection.createStatement();
             stmt.executeUpdate("DELETE FROM users");
             stmt.close();
         } catch (SQLException e) {
