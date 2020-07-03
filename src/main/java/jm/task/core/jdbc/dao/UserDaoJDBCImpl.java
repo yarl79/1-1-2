@@ -1,6 +1,5 @@
 package jm.task.core.jdbc.dao;
 
-
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 
@@ -79,7 +78,6 @@ public class UserDaoJDBCImpl implements UserDao {
                         result.getString(3),
                         result.getByte(4)));
             }
-
             result.close();
             stmt.close();
         } catch (SQLException e) {
